@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday, Lori</title>
+<style>
+/* Warm dusk palette: deep plum night, candlelight gold, peach glow */
+:root{
+  --night:#2e1b38;
+  --night-2:#46264f;
+  --glow:#ffb47a;
+  --gold:#ffd98e;
+  --cream:#fff3e4;
+  --ink:#3a2430;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:Georgia,"Times New Roman",serif;
+  background:radial-gradient(120% 90% at 50% 110%, var(--night-2), var(--night) 70%);
+  color:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  padding:1.25rem;
+}
+
+/* ---------- floating candle-lights ---------- */
+.light{
+  position:fixed;bottom:-3rem;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 18px 6px rgba(255,217,142,.45);
+  opacity:0;
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  10%{opacity:.9}
+  90%{opacity:.6}
+  100%{transform:translateY(-110vh) translateX(var(--drift,20px));opacity:0}
+}
+.light:nth-child(1){left:8%;  animation-duration:14s; animation-delay:0s;  --drift:30px}
+.light:nth-child(2){left:22%; animation-duration:18s; animation-delay:3s;  --drift:-24px; width:7px;height:7px}
+.light:nth-child(3){left:38%; animation-duration:12s; animation-delay:6s;  --drift:18px}
+.light:nth-child(4){left:55%; animation-duration:20s; animation-delay:1s;  --drift:-32px; width:6px;height:6px}
+.light:nth-child(5){left:70%; animation-duration:15s; animation-delay:8s;  --drift:26px}
+.light:nth-child(6){left:84%; animation-duration:17s; animation-delay:4s;  --drift:-18px; width:8px;height:8px}
+.light:nth-child(7){left:93%; animation-duration:13s; animation-delay:10s; --drift:14px; width:6px;height:6px}
+
+/* ---------- the card ---------- */
+.card{
+  position:relative;z-index:2;
+  width:min(30rem,100%);
+  text-align:center;
+}
+
+/* front: shown until opened */
+.front{
+  background:linear-gradient(160deg, #563061, var(--night-2));
+  border:1px solid rgba(255,217,142,.35);
+  border-radius:1rem;
+  padding:4rem 2rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.front .to{
+  font-size:.85rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--glow);margin-bottom:1rem;
+}
+.front h1{
+  font-weight:400;font-size:clamp(2rem,7vw,3rem);line-height:1.15;
+  margin-bottom:2.25rem;
+}
+.smile{ /* the "keep smiling" arc, drawn in on load */
+  display:block;margin:0 auto 2.25rem;width:120px;height:auto;
+}
+.smile path{
+  stroke:var(--gold);stroke-width:5;fill:none;stroke-linecap:round;
+  stroke-dasharray:200;stroke-dashoffset:200;
+  animation:draw 1.6s ease .6s forwards;
+}
+.smile circle{fill:var(--gold);opacity:0;animation:blink .5s ease 2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes blink{to{opacity:1}}
+button.open{
+  font:inherit;font-size:1rem;letter-spacing:.08em;
+  background:var(--gold);color:var(--ink);
+  border:0;border-radius:2rem;
+  padding:.85rem 2.2rem;cursor:pointer;
+  box-shadow:0 0 24px rgba(255,217,142,.35);
+}
+button.open:hover{background:var(--glow)}
+button.open:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+
+/* inside: revealed on open */
+.inside{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:2rem;
+  opacity:0;visibility:hidden;
+  transition:opacity .9s ease .5s, visibility 0s 1.4s;
+}
+.inside p{
+  font-size:clamp(1.15rem,4vw,1.5rem);line-height:1.7;
+  max-width:24ch;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.inside .wish{transition-delay:.8s}
+.inside .msg{transition-delay:1.5s;margin-top:1.25rem}
+.inside .sign{
+  transition-delay:2.2s;margin-top:2rem;
+  color:var(--glow);font-style:italic;font-size:1.1rem;
+}
+
+/* opened state */
+.card.opened .front{opacity:0;transform:translateY(-24px) scale(.97);pointer-events:none}
+.card.opened .inside{opacity:1;visibility:visible;transition:opacity .9s ease .5s}
+.card.opened .inside p{opacity:1;transform:none}
+
+/* ---------- reduced motion: everything static, card pre-opened ---------- */
+@media (prefers-reduced-motion:reduce){
+  .light{animation:none;opacity:.5;bottom:auto;top:calc(15% + var(--y,0%))}
+  .smile path{animation:none;stroke-dashoffset:0}
+  .smile circle{animation:none;opacity:1}
+  .front,.inside,.inside p{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="light" aria-hidden="true"></div>
+<div class="light" aria-hidden="true" style="--y:10%"></div>
+<div class="light" aria-hidden="true" style="--y:30%"></div>
+<div class="light" aria-hidden="true" style="--y:5%"></div>
+<div class="light" aria-hidden="true" style="--y:40%"></div>
+<div class="light" aria-hidden="true" style="--y:20%"></div>
+<div class="light" aria-hidden="true" style="--y:50%"></div>
+
+<main class="card" id="card">
+  <div class="front" id="front">
+    <p class="to">For Lori Wright</p>
+    <h1>Happy Birthday</h1>
+    <!-- a smile, drawn in — because "keep smiling" -->
+    <svg class="smile" viewBox="0 0 120 70" aria-hidden="true" focusable="false">
+      <circle cx="22" cy="12" r="5"/>
+      <circle cx="98" cy="12" r="5"/>
+      <path d="M14 30 C 34 66, 86 66, 106 30"/>
+    </svg>
+    <button class="open" id="open-btn">Open your card</button>
+  </div>
+
+  <div class="inside" id="inside" aria-hidden="true">
+    <p class="wish">Wishing you a wonderful birthday, Lori.</p>
+    <p class="msg">Thank you for your support.<br>Keep smiling, always.</p>
+    <p class="sign">&mdash; PSG</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  var card   = document.getElementById('card');
+  var btn    = document.getElementById('open-btn');
+  var inside = document.getElementById('inside');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function open(){
+    card.classList.add('opened');
+    inside.setAttribute('aria-hidden','false');
+    /* move focus so screen readers land on the message */
+    inside.setAttribute('tabindex','-1');
+    inside.focus({preventScroll:true});
+  }
+
+  btn.addEventListener('click', open);
+  /* reduced motion: skip the ceremony, show the message immediately */
+  if(reduce){ open(); }
+})();
+</script>
+
+</body>
+</html>
